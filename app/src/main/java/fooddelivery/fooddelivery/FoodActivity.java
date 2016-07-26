@@ -8,6 +8,7 @@ import android.widget.TextView;
 public class FoodActivity extends Activity {
 
     public static final String EXTRA_FOODNO = "foodNo";
+    public static final String EXTRA_RESTAURANTNO = "restaurantNo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

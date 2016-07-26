@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context="com.hfad.starbuzz.DrinkActivity" >
+    tools:context=".FoodActivity">
 
   <ImageView android:id="@+id/photo"
              android:layout_width="190dp"
