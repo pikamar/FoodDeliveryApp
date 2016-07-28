@@ -29,7 +29,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    EditText etResponse;
     TextView tvIsConnected;
     StarbuzzDatabaseHelper databaseHelper;
     @Override
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get reference to the views
-        etResponse = (EditText) findViewById(R.id.etResponse);
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
 
         Button btn = (Button)findViewById(R.id.button2);
@@ -131,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject json;
                 for (int i = 0; i < jsonArray.length(); i++) {
                     json = jsonArray.getJSONObject(i);
-                    etResponse.setText(etResponse.getText() + "\n" + json.getString("name"));
 
                 }
 
@@ -159,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject json;
                 for (int i = 0; i < jsonArray.length(); i++) {
                     json = jsonArray.getJSONObject(i);
-                    etResponse.setText(etResponse.getText() + "\n" + json.getString("name"));
                     Category category = new Category();
                     category.setName(json.getString("name"));
                     category.setId(json.getLong("id"));

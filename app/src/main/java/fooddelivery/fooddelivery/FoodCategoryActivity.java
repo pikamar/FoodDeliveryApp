@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -32,15 +34,15 @@ public class FoodCategoryActivity extends Activity {
         try {
             SQLiteOpenHelper starbuzzDatabaseHelper = new StarbuzzDatabaseHelper(this);
             db = starbuzzDatabaseHelper.getReadableDatabase();
-            categoriesCursor = db.query("RESTAURANT_CATEGORY",
-                    new String[]{"_id", "RESTAURANT_ID"}, "CATEGORY_ID = ?",
-                    new String[]{Integer.toString(categoryNo)},
-                    null, null, null);
+
+            categoriesCursor = db.rawQuery("SELECT * FROM RESTAURANT r, RESTAURANT_CATEGORY rc " +
+                    "WHERE r._ID = rc.RESTAURANT_ID AND rc.CATEGORY_ID=" + Integer.toString(categoryNo), null);
+
             CursorAdapter categoryAdapter =
                     new SimpleCursorAdapter(FoodCategoryActivity.this,
                             android.R.layout.simple_list_item_1,
                             categoriesCursor,
-                            new String[]{"RESTAURANT_ID"},
+                            new String[]{"NAME"},
                             new int[]{android.R.id.text1}, 0);
             listCategories.setAdapter(categoryAdapter);
         } catch (SQLiteException e) {
@@ -53,11 +55,13 @@ public class FoodCategoryActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
                 Intent intent = new Intent(FoodCategoryActivity.this, FoodActivity.class);
-                intent.putExtra(FoodActivity.EXTRA_FOODNO, (int) id);
+                //intent.putExtra(FoodActivity.EXTRA_FOODNO, (int) id);
+                Log.w("myApp", "restaurant id: " + Long.toString(id));
                 intent.putExtra(FoodActivity.EXTRA_RESTAURANTNO, (int) id);
                 startActivity(intent);
             }
         });
+
     }
 
     //Close the cursor and database in the onDestroy() method
