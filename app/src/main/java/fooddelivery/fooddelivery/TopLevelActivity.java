@@ -67,7 +67,7 @@ public class TopLevelActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
                 Intent intent = new Intent(TopLevelActivity.this, FoodCategoryActivity.class);
-                intent.putExtra(FoodActivity.EXTRA_FOODNO, (int) id);
+                //intent.putExtra(FoodActivity.EXTRA_FOODNO, (int) id);
                 intent.putExtra(FoodCategoryActivity.EXTRA_CATEGORY_NO, (int) id);
                 startActivity(intent);
             }
