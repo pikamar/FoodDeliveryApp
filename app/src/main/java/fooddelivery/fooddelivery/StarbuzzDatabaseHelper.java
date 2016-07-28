@@ -14,12 +14,16 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    private static void insertCategory(SQLiteDatabase db, int id, String name, String pictureUrl) {
+    private static void insertCategory(SQLiteDatabase db, long id, String name, String pictureUrl) {
         ContentValues categryValues = new ContentValues();
         categryValues.put("_id", id);
         categryValues.put("NAME", name);
         categryValues.put("PICTUREURL", pictureUrl);
         db.insert("CATEGORY", null, categryValues);
+    }
+
+    public void insertCategory(Category category){
+        insertCategory(getWritableDatabase(),category.getId(),category.getName(),null);
     }
 
     private static void insertRestaurant(SQLiteDatabase db, int id, String name, String url, String phone, String delivery_time
@@ -74,19 +78,6 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                     + "UPDATED_AT TEXT, "
                     + "NAME TEXT, "
                     + "PICTUREURL TEXT);");
-
-            insertCategory(db, 1, "Pizza", "Pizza.png");
-            insertCategory(db, 2, "Sushi", "Sushi.png");
-            insertCategory(db, 3, "Kebabs and burgers", "Kebabs_and_burgers.png");
-            insertCategory(db, 4, "Barbecue", "Barbecue.png");
-            insertCategory(db, 5, "WOK", "WOK.png");
-            insertCategory(db, 6, "Pasta", "Pasta.png");
-            insertCategory(db, 7, "Snacks", "Snacks.png");
-            insertCategory(db, 8, "Soup", "Soup.png");
-            insertCategory(db, 9, "Main course", "Main_course.png");
-            insertCategory(db, 10, "Salad", "Salad.png");
-            insertCategory(db, 11, "Desserts", "Desserts.png");
-            insertCategory(db, 12, "Discounts", "Discounts.png");
 
             db.execSQL("CREATE TABLE RESTAURANT (_id INTEGER, "
                     + "STATUS TEXT, "

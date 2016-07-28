@@ -1,6 +1,7 @@
 package fooddelivery.fooddelivery;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     EditText etResponse;
     TextView tvIsConnected;
+    StarbuzzDatabaseHelper databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
         // get reference to the views
         etResponse = (EditText) findViewById(R.id.etResponse);
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
+
+        Button btn = (Button)findViewById(R.id.button2);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TopLevelActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        databaseHelper = new StarbuzzDatabaseHelper(this);
 
         // check if you are connected or not
         if(isConnected()){
@@ -50,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         // call AsynTask to perform network operation on separate thread
         new CategoriesAsyncTask().execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
+        new RestaurantsAsyncTask().execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
 
     }
 
@@ -146,7 +160,10 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     json = jsonArray.getJSONObject(i);
                     etResponse.setText(etResponse.getText() + "\n" + json.getString("name"));
-
+                    Category category = new Category();
+                    category.setName(json.getString("name"));
+                    category.setId(json.getLong("id"));
+                    databaseHelper.insertCategory(category);
                 }
 
 
