@@ -4,6 +4,10 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
 
+    // We need to use old library, because we are using HttpClient class and its methods,
+    // which are deprecated as od SDK 23
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         applicationId "fooddelivery.fooddelivery"
         minSdkVersion 17

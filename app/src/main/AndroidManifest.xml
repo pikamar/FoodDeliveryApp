@@ -2,27 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fooddelivery.fooddelivery">
 
+    <!-- Add these two lines to allow androdi to communicate over the internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".TopLevelActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".FoodCategoryActivity"
+            android:label="@string/title_activity_food_category"></activity>
+        <activity
+            android:name=".FoodActivity"
+            android:label="@string/title_activity_food"></activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".FoodCategoryActivity"
-            android:label="@string/title_activity_food_category" >
-        </activity>
-        <activity
-            android:name=".FoodActivity"
-            android:label="@string/title_activity_food" >
         </activity>
     </application>
 
