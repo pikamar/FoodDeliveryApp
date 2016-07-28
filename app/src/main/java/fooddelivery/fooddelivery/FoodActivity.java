@@ -6,10 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +18,7 @@ public class FoodActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food);
+        setContentView(R.layout.activity_restaurant);
         
         //Get the food from the intent
         /*int foodNo = (Integer)getIntent().getExtras().get(EXTRA_FOODNO);
@@ -52,6 +49,10 @@ public class FoodActivity extends Activity {
             //Log.e("myApp", sql);
 
             restaurantCursor = db.rawQuery(sql, null);
+
+            ImageView photo = (ImageView) findViewById(R.id.photo);
+            photo.setImageResource(R.drawable.restaurant);
+            photo.setContentDescription("Restaurant");
 
             if (restaurantCursor.moveToFirst()) {
 
