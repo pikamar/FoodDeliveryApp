@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 // Parse JSON and etc
                 databaseHelper.insertCategories(JSONAnalyzr.getCategories(output));
             }
-        }).execute("http://www.mocky.io/v2/579af7d41100006b15cb76b8");
+        }).execute("http://www.mocky.io/v2/579afa0b1100008715cb76bc");
         // RestaurantCategory
         new JRESTAsyncTask(new AsyncResponse() {
             @Override
