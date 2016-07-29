@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnUpdateClicked(View view){
+        pbUpdate.setProgress(0);
         if(!checkConnection())
             // FIXME tell that you need to be connected
             return;
