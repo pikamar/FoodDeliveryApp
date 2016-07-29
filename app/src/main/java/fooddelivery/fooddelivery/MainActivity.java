@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get reference to the views
-        etResponse = (TextView) findViewById(R.id.etResponse);
+        //etResponse = (TextView) findViewById(R.id.etResponse);
         pbUpdate=(ProgressBar)findViewById(R.id.progressBar);
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         btnUpdate = (Button)findViewById(R.id.btnUpdate);
