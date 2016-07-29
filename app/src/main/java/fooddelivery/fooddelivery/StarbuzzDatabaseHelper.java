@@ -115,9 +115,9 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                     + "NAME TEXT, "
                     + "PICTUREURL TEXT, UNIQUE (_id) ON CONFLICT REPLACE);");
 
-            insertCategory(db, 1, "Test1", "www.lido.lv");
+            /*insertCategory(db, 1, "Test1", "www.lido.lv");
             insertCategory(db, 2, "Test2", "www.lido.lv");
-            insertCategory(db, 3, "Test3", "www.lido.lv");
+            insertCategory(db, 3, "Test3", "www.lido.lv");*/
 
             db.execSQL("CREATE TABLE RESTAURANT (_id INTEGER, "
                     + "STATUS TEXT, "
@@ -133,11 +133,11 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                     + "LOGO_URL TEXT, "
                     + "RATING INTEGER, UNIQUE (_id) ON CONFLICT REPLACE);");
 
-            insertRestaurant(db, 1, "Lido", "www.lido.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
+            /*insertRestaurant(db, 1, "Lido", "www.lido.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
             insertRestaurant(db, 2, "Chili", "www.chili.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
             insertRestaurant(db, 3, "Erebuni", "www.erebuni.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
             insertRestaurant(db, 4, "Elande", "www.elande.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
-            insertRestaurant(db, 5, "Kebabs", "www.kebabs.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
+            insertRestaurant(db, 5, "Kebabs", "www.kebabs.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);*/
 
             db.execSQL("CREATE TABLE RESTAURANT_CATEGORY (_id INTEGER, "
                     + "STATUS TEXT, "
@@ -147,7 +147,7 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                     + "CATEGORY_ID INTEGER, "
                     + "MENU_URL TEXT, UNIQUE (_id) ON CONFLICT REPLACE);");
 
-            insertRestaurantCategory(db, 1, 1, 1, "www.menu.lv");
+            /*insertRestaurantCategory(db, 1, 1, 1, "www.menu.lv");
             insertRestaurantCategory(db, 2, 1, 2, "www.menu.lv");
             insertRestaurantCategory(db, 3, 1, 3, "www.menu.lv");
             insertRestaurantCategory(db, 4, 2, 4, "www.menu.lv");
@@ -161,7 +161,7 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
             insertRestaurantCategory(db, 12, 4, 12, "www.menu.lv");
             insertRestaurantCategory(db, 13, 5, 3, "www.menu.lv");
             insertRestaurantCategory(db, 14, 5, 4, "www.menu.lv");
-            insertRestaurantCategory(db, 15, 5, 5, "www.menu.lv");
+            insertRestaurantCategory(db, 15, 5, 5, "www.menu.lv");*/
 
             db.execSQL("CREATE TABLE COMMENT (_id INTEGER, "
                     + "STATUS TEXT, "
@@ -171,12 +171,12 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                     + "USER TEXT, "
                     + "RESTAURANT_ID INTEGER, UNIQUE (_id) ON CONFLICT REPLACE);");
 
-            insertComment(db, 1, "comment1", "Joe", 1);
+            /*insertComment(db, 1, "comment1", "Joe", 1);
             insertComment(db, 2, "comment2", "Joe", 2);
             insertComment(db, 3, "comment3", "Joe", 3);
             insertComment(db, 4, "comment4", "Joe", 4);
             insertComment(db, 5, "comment5", "Joe", 5);
-            insertComment(db, 6, "comment6", "Joe", 6);
+            insertComment(db, 6, "comment6", "Joe", 6);*/
         }
     }
 }

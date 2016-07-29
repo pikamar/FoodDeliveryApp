@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,38 +51,41 @@ public class FoodActivity extends Activity {
 
             restaurantCursor = db.rawQuery(sql, null);
 
-            ImageView photo = (ImageView) findViewById(R.id.photo);
-            photo.setImageResource(R.drawable.restaurant);
-            photo.setContentDescription("Restaurant");
+            /*ImageView photo = (ImageView) findViewById(R.id.photo);
+            photo.setImageResource(R.drawable.cappuccino);
+            photo.setContentDescription("Restaurant");*/
 
             if (restaurantCursor.moveToFirst()) {
 
+
+                RatingBar rating = (RatingBar)findViewById(R.id.rating);
+                //rating.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("RATING")));
+                rating.setProgress(restaurantCursor.getInt(restaurantCursor.getColumnIndex("RATING")));
+
                 TextView name = (TextView)findViewById(R.id.name);
-                name.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("NAME")));
+                name.setText((String)"Restaurant: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("NAME")));
 
                 TextView url = (TextView)findViewById(R.id.url);
-                url.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("URL")));
+                url.setText((String)"Webpage: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("URL")));
 
                 TextView phone = (TextView)findViewById(R.id.phone);
-                phone.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("PHONE")));
+                phone.setText((String)"Phone: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("PHONE")));
 
                 TextView delivery_time = (TextView)findViewById(R.id.delivery_time);
-                delivery_time.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("DELIVERY_TIME")));
+                delivery_time.setText((String)"Delivery time: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("DELIVERY_TIME")));
 
                 TextView free_delivery_from = (TextView)findViewById(R.id.free_delivery_from);
-                free_delivery_from.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("FREE_DELIVERY_FROM")));
+                free_delivery_from.setText((String)"Free delivery starting from: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("FREE_DELIVERY_FROM")));
 
                 TextView free_delivery_with_card = (TextView)findViewById(R.id.free_delivery_with_card);
-                free_delivery_with_card.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("FREE_DELIVERY_WITH_CARD")));
+                free_delivery_with_card.setText((String)"Free delivery for members: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("FREE_DELIVERY_WITH_CARD")));
 
                 TextView card_pay = (TextView)findViewById(R.id.card_pay);
-                card_pay.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("CARD_PAY")));
+                card_pay.setText((String)"Accept credit/debit cards: " + (String)restaurantCursor.getString(restaurantCursor.getColumnIndex("CARD_PAY")));
 
-                TextView logo_url = (TextView)findViewById(R.id.logo_url);
-                logo_url.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("LOGO_URL")));
+                /*TextView logo_url = (TextView)findViewById(R.id.logo_url);
+                logo_url.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("LOGO_URL")));*/
 
-                TextView rating = (TextView)findViewById(R.id.rating);
-                rating.setText(restaurantCursor.getString(restaurantCursor.getColumnIndex("RATING")));
             }
 
         } catch (SQLiteException e) {

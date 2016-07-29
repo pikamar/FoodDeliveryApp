@@ -66,9 +66,9 @@ public class JSONAnalyzr {
                 json = jsonArray.getJSONObject(i);
                 RestaurantCategory resCat = new RestaurantCategory();
                 resCat.setId(json.getLong("id"));
-                resCat.setMenuUrl(json.getString("restaurantId"));
+                resCat.setMenuUrl(json.getString("menuURL"));
                 resCat.setCategoryId(json.getLong("categoryId"));
-                resCat.setRestaurantId(json.getLong("menuURL"));
+                resCat.setRestaurantId(json.getLong("restaurantId"));
                 System.out.println(resCat);
                 resCats.add(resCat);
 
