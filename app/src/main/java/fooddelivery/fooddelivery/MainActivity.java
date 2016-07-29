@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvIsConnected;
     StarbuzzDatabaseHelper databaseHelper;
 
+    ProgressBar pbUpdate;
+
     Button btnUpdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         // get reference to the views
         etResponse = (TextView) findViewById(R.id.etResponse);
+        pbUpdate=(ProgressBar)findViewById(R.id.progressBar);
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         btnUpdate = (Button)findViewById(R.id.btnUpdate);
         Button btn = (Button)findViewById(R.id.button2);
@@ -86,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             public void processFinish(String output) {
                 // Parse JSON and etc
                 databaseHelper.insertCategories(JSONAnalyzr.getCategories(output));
+                pbUpdate.setProgress(pbUpdate.getProgress()+33);
+                updFinished();
             }
         }).execute("http://www.mocky.io/v2/579afa0b1100008715cb76bc");
         // RestaurantCategory
@@ -94,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             public void processFinish(String output) {
                 // Parse JSON and etc
                 databaseHelper.insertRestaurantCategories(JSONAnalyzr.getRestaurantCategories(output));
+                pbUpdate.setProgress(pbUpdate.getProgress()+33);
+                updFinished();
             }
         }).execute("http://www.mocky.io/v2/579af8c51100006a15cb76b9");
         // Restaurants
@@ -102,12 +110,18 @@ public class MainActivity extends AppCompatActivity {
             public void processFinish(String output) {
                 // Parse JSON and etc
                 databaseHelper.insertRestaurants(JSONAnalyzr.getRestaurants(output));
-                etResponse.setText(JSONAnalyzr.getRestaurants(output).toString());
+                pbUpdate.setProgress(pbUpdate.getProgress()+33);
+                updFinished();
             }
         }).execute("http://www.mocky.io/v2/579af7541100006515cb76b6");
-
     }
 
+    public void updFinished(){
+        if(pbUpdate.getProgress()==99){
+            Toast toast = Toast.makeText(this, "Update Finished!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
