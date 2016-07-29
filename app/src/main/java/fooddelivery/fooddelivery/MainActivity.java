@@ -26,19 +26,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    TextView etResponse;
     TextView tvIsConnected;
     StarbuzzDatabaseHelper databaseHelper;
+
+    Button btnUpdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // get reference to the views
+        etResponse = (TextView) findViewById(R.id.etResponse);
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
-
+        btnUpdate = (Button)findViewById(R.id.btnUpdate);
         Button btn = (Button)findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,59 +55,59 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHelper = new StarbuzzDatabaseHelper(this);
 
+        checkConnection();
+
+    }
+
+    private boolean checkConnection(){
         // check if you are connected or not
         if(isConnected()){
             tvIsConnected.setBackgroundColor(0xFF00CC00);
-            tvIsConnected.setText("You are conncted");
+            tvIsConnected.setText("You are connected");
+            return true;
         }
         else{
-            tvIsConnected.setText("You are NOT conncted");
+            tvIsConnected.setBackgroundColor(0xFF0000);
+            tvIsConnected.setText("You are NOT connected");
+            return false;
         }
+    }
+
+    public void btnUpdateClicked(View view){
+        if(!checkConnection())
+            // FIXME tell that you need to be connected
+            return;
 
         // call AsynTask to perform network operation on separate thread
-        new CategoriesAsyncTask().execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
-        new RestaurantsAsyncTask().execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
+//        new CategoriesAsyncTask().execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
+        // Categories
+        new JRESTAsyncTask(new AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                // Parse JSON and etc
+                databaseHelper.insertCategories(JSONAnalyzr.getCategories(output));
+            }
+        }).execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
+        // RestaurantCategory
+        new JRESTAsyncTask(new AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                // Parse JSON and etc
+                databaseHelper.insertRestaurantCategories(JSONAnalyzr.getRestaurantCategories(output));
+            }
+        }).execute("http://www.mocky.io/v2/579a4d331100005c05cb7630");
+        // Restaurants
+        new JRESTAsyncTask(new AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                // Parse JSON and etc
+                databaseHelper.insertRestaurants(JSONAnalyzr.getRestaurants(output));
+                etResponse.setText(JSONAnalyzr.getRestaurants(output).toString());
+            }
+        }).execute("http://www.mocky.io/v2/579a4f241100009005cb7631");
 
     }
 
-    public static String GET(String url){
-        InputStream inputStream = null;
-        String result = "";
-        try {
-
-            // create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
-
-            // make GET request to the given URL
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-
-            // receive response as inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convert inputstream to string
-            if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
-
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
-        return result;
-    }
-
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
-
-        inputStream.close();
-        return result;
-
-    }
 
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
@@ -113,7 +118,22 @@ public class MainActivity extends AppCompatActivity {
             return false;
     }
 
-    private class RestaurantsAsyncTask extends AsyncTask<String, Void, String> {
+    // you may separate this or combined to caller class.
+    private interface AsyncResponse {
+        void processFinish(String output);
+    }
+
+
+    class JRESTAsyncTask extends AsyncTask<String, Void, String> {
+
+
+        public AsyncResponse delegate = null;
+
+        public JRESTAsyncTask(AsyncResponse delegate){
+            this.delegate = delegate;
+        }
+
+
         @Override
         protected String doInBackground(String... urls) {
             return GET(urls[0]);
@@ -122,51 +142,50 @@ public class MainActivity extends AppCompatActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-            JSONArray jsonArray = null;
+            delegate.processFinish(result);
+        }
+
+        private String GET(String url){
+            InputStream inputStream = null;
+            String result = "";
             try {
-                jsonArray = new JSONArray(result);
-                JSONObject json;
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    json = jsonArray.getJSONObject(i);
 
-                }
+                // create HttpClient
+                HttpClient httpclient = new DefaultHttpClient();
 
+                // make GET request to the given URL
+                HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                // receive response as inputStream
+                inputStream = httpResponse.getEntity().getContent();
+
+                // convert inputstream to string
+                if(inputStream != null)
+                    result = convertInputStreamToString(inputStream);
+                else
+                    result = "Did not work!";
+
+            } catch (Exception e) {
+                Log.d("InputStream", e.getLocalizedMessage());
             }
 
+            return result;
         }
+
+        private String convertInputStreamToString(InputStream inputStream) throws IOException {
+            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+            String line = "";
+            String result = "";
+            while((line = bufferedReader.readLine()) != null)
+                result += line;
+
+            inputStream.close();
+            Log.i("convert", result);
+            return result;
+
+        }
+
     }
 
-    private class CategoriesAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            return GET(urls[0]);
-        }
 
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-            JSONArray jsonArray = null;
-            try {
-                jsonArray = new JSONArray(result);
-                JSONObject json;
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    json = jsonArray.getJSONObject(i);
-                    Category category = new Category();
-                    category.setName(json.getString("name"));
-                    category.setId(json.getLong("id"));
-                    databaseHelper.insertCategory(category);
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
 }

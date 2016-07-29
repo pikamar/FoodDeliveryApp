@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.List;
+
 class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "fooddelivery"; // the name of our database
@@ -27,7 +29,14 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
         insertCategory(getWritableDatabase(),category.getId(),category.getName(),null);
     }
 
-    private static void insertRestaurant(SQLiteDatabase db, int id, String name, String url, String phone, String delivery_time
+    public void insertCategories(List<Category> categories){
+        // API required for lambdas and streams is 24. currently 17 :(
+        for(Category category:categories){
+            insertCategory(category);
+        }
+    }
+
+    private static void insertRestaurant(SQLiteDatabase db, long id, String name, String url, String phone, String delivery_time
             , String free_delivery_from, String free_delivery_with_card, String card_pay, String logo_url, String rating) {
         ContentValues restaurantValues = new ContentValues();
         restaurantValues.put("_id", id);
@@ -44,7 +53,19 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
         db.insertWithOnConflict("RESTAURANT", null, restaurantValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    private static void insertRestaurantCategory(SQLiteDatabase db, int id, int restaurant_id, int category_id, String menu_url) {
+    private void insertRestaurant(Restaurant res){
+        insertRestaurant(getWritableDatabase(),res.getId(),res.getName(),res.getUrl(),res.getPhone(),res.getDeliveryTime(),res.getFreeDeliveryFrom()
+                ,res.getFreeDeliveryWithCard(),res.getCardPay(),res.getLogoUrl(),res.getRating());
+    }
+
+    public void insertRestaurants(List<Restaurant> restaurants){
+        // API required for lambdas and streams is 24. currently 17 :(
+        for(Restaurant restaurant:restaurants){
+            insertRestaurant(restaurant);
+        }
+    }
+
+    private static void insertRestaurantCategory(SQLiteDatabase db, long id, long restaurant_id, long category_id, String menu_url) {
         ContentValues categryValues = new ContentValues();
         categryValues.put("_id", id);
         categryValues.put("RESTAURANT_ID", restaurant_id);
@@ -52,6 +73,17 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
         categryValues.put("MENU_URL", menu_url);
         //db.insert("RESTAURANT_CATEGORY", null, categryValues);
         db.insertWithOnConflict("RESTAURANT_CATEGORY", null, categryValues, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    private void insertRestaurantCategory(RestaurantCategory resCat){
+        insertRestaurantCategory(getWritableDatabase(),resCat.getId(),resCat.getRestaurantId(),resCat.getCategoryId(),resCat.getMenuUrl());
+    }
+
+    public void insertRestaurantCategories(List<RestaurantCategory> resCats){
+        // API required for lambdas and streams is 24. currently 17 :(
+        for(RestaurantCategory resCat:resCats){
+            insertRestaurantCategory(resCat);
+        }
     }
 
     private static void insertComment(SQLiteDatabase db, int id, String content, String user, int restaurant_id) {
