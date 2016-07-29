@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 // Parse JSON and etc
                 databaseHelper.insertCategories(JSONAnalyzr.getCategories(output));
             }
-        }).execute("http://www.mocky.io/v2/5799a988100000e2199e8316");
+        }).execute("http://www.mocky.io/v2/579afa0b1100008715cb76bc");
         // RestaurantCategory
         new JRESTAsyncTask(new AsyncResponse() {
             @Override
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 // Parse JSON and etc
                 databaseHelper.insertRestaurantCategories(JSONAnalyzr.getRestaurantCategories(output));
             }
-        }).execute("http://www.mocky.io/v2/579a4d331100005c05cb7630");
+        }).execute("http://www.mocky.io/v2/579af8c51100006a15cb76b9");
         // Restaurants
         new JRESTAsyncTask(new AsyncResponse() {
             @Override
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 databaseHelper.insertRestaurants(JSONAnalyzr.getRestaurants(output));
                 etResponse.setText(JSONAnalyzr.getRestaurants(output).toString());
             }
-        }).execute("http://www.mocky.io/v2/579a4f241100009005cb7631");
+        }).execute("http://www.mocky.io/v2/579af7541100006515cb76b6");
 
     }
 

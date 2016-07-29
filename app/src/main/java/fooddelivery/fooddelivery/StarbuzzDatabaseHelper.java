@@ -37,7 +37,7 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static void insertRestaurant(SQLiteDatabase db, long id, String name, String url, String phone, String delivery_time
-            , String free_delivery_from, String free_delivery_with_card, String card_pay, String logo_url, String rating) {
+            , String free_delivery_from, String free_delivery_with_card, String card_pay, String logo_url, int rating) {
         ContentValues restaurantValues = new ContentValues();
         restaurantValues.put("_id", id);
         restaurantValues.put("NAME", name);
@@ -131,13 +131,13 @@ class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                     + "FREE_DELIVERY_WITH_CARD TEXT, "
                     + "CARD_PAY TEXT, "
                     + "LOGO_URL TEXT, "
-                    + "RATING TEXT, UNIQUE (_id) ON CONFLICT REPLACE);");
+                    + "RATING INTEGER, UNIQUE (_id) ON CONFLICT REPLACE);");
 
-            insertRestaurant(db, 1, "Lido", "www.lido.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", "5");
-            insertRestaurant(db, 2, "Chili", "www.chili.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", "5");
-            insertRestaurant(db, 3, "Erebuni", "www.erebuni.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", "5");
-            insertRestaurant(db, 4, "Elande", "www.elande.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", "5");
-            insertRestaurant(db, 5, "Kebabs", "www.kebabs.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", "5");
+            insertRestaurant(db, 1, "Lido", "www.lido.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
+            insertRestaurant(db, 2, "Chili", "www.chili.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
+            insertRestaurant(db, 3, "Erebuni", "www.erebuni.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
+            insertRestaurant(db, 4, "Elande", "www.elande.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
+            insertRestaurant(db, 5, "Kebabs", "www.kebabs.lv", "223462", "30 min", "25", "no", "yes", "lodo.png", 5);
 
             db.execSQL("CREATE TABLE RESTAURANT_CATEGORY (_id INTEGER, "
                     + "STATUS TEXT, "

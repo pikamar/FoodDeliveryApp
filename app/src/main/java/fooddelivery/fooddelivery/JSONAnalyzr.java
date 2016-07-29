@@ -46,7 +46,7 @@ public class JSONAnalyzr {
                 restaurant.setFreeDeliveryFrom(json.getString("freeDeliveryFrom"));
                 restaurant.setFreeDeliveryWithCard(json.getString("freeDeliveryWithCard"));
                 restaurant.setCardPay(json.getString("cardPay"));
-                restaurant.setRating(json.getString("rating"));
+                restaurant.setRating(json.getInt("rating"));
                 System.out.println(restaurant);
                 restaurants.add(restaurant);
 
