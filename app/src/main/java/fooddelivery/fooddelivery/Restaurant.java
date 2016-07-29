@@ -11,9 +11,9 @@ public class Restaurant {
     private String freeDeliveryWithCard;
     private String cardPay;
     private String logoUrl;
-    private String rating;
+    private int rating;
 
-    public Restaurant(long id, String name, String url, String phone, String deliveryTime, String freeDeliveryFrom, String freeDeliveryWithCard, String cardPay, String logoUrl, String rating) {
+    public Restaurant(long id, String name, String url, String phone, String deliveryTime, String freeDeliveryFrom, String freeDeliveryWithCard, String cardPay, String logoUrl, int rating) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -101,11 +101,11 @@ public class Restaurant {
         this.logoUrl = logoUrl;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
